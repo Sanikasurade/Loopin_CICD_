@@ -58,7 +58,7 @@ spec:
                     sh '''
                         echo "Building backend Docker image..."
                         sleep 10
-                        docker build -t loopin-backend:latest ./loopin-backend
+                        docker build -t loopin-backend:latest ./backend
                         docker image ls
                     '''
                 }
@@ -70,7 +70,7 @@ spec:
                 container('dind') {
                     sh '''
                         echo "Building frontend Docker image..."
-                        docker build -t loopin-frontend:latest ./loopin-frontend
+                        docker build -t loopin-frontend:latest ./frontend
                         docker image ls
                     '''
                 }

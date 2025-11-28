@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:["http://localhost:5174", "http://localhost:3001"],
      //frontend url
     credentials: true, //
   })
@@ -29,7 +29,9 @@ app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 app.use("/api/loop", loopRouter);
 app.use("/api/message",messageRouter)
-
+app.get("/",(req,res)=>{
+  res.send("Backend is running")
+});
 
 server.listen(port, () => {
   connectDb();

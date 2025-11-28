@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import SignUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn.jsx";
-import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ForgotPassword from "./pages/forgotpassword.jsx";
 import Home from "./pages/Home.jsx";
 import getCurrentUser from "./hooks/getCurrentUser.jsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ import getFollowingList from "./hooks/getFollowingList.jsx";
 import getPrevChatUsers from "./hooks/getPrevchatUsers.jsx";
 
 
-export const serverUrl="http://localhost:5000"
+export const serverUrl="http://localhost:5002"
 function App() {
   getCurrentUser();
   getSuggestedUsers();

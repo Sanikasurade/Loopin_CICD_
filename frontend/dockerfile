@@ -1,0 +1,29 @@
+# ----------- Build Stage -----------
+FROM node:20 AS build
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Build production files
+RUN npm run build
+
+
+# ----------- Production Stage -----------
+FROM nginx:latest
+
+# Copy dist output to nginx folder
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose NGINX default port
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

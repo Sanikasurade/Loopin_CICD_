@@ -1,9 +1,9 @@
 node_modules
-npm-debug.log
+dist
 Dockerfile
 .dockerignore
-.env
 .vscode
 .git
 .gitignore
+npm-debug.log
 *.log

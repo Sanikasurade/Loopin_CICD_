@@ -1,0 +1,157 @@
+# ---------------------------------------
+# 1. Secrets (MongoDB Credentials & URL)
+# ---------------------------------------
+apiVersion: v1
+kind: Secret
+metadata:
+  name: loopin-secrets
+type: Opaque
+data:
+  mongo_url: bW9uZ29kOi8vYWRtaW46YWRtaW5AMjcwMTcvbG9vcGlu # <-- Replace with your BASE64 string
+
+---
+# ---------------------------------------
+# 2. ConfigMap (Optional App Config)
+# ---------------------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loopin-config
+data:
+  NODE_ENV: "production"
+  FRONTEND_URL: "http://loopin-frontend-service"
+
+---
+# ---------------------------------------
+# 3. Backend Deployment
+# ---------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loopin-backend
+  labels:
+    app: loopin-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loopin-backend
+  template:
+    metadata:
+      labels:
+        app: loopin-backend
+    spec:
+      containers:
+      - name: loopin-backend
+        image: nexus-service-for-docker-hosted-registry.nexus.svc.cluster.local:8085/sanika-project/loopin-backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGO_URL
+          valueFrom:
+            secretKeyRef:
+              name: loopin-secrets
+              key: mongo_url
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: loopin-config
+              key: NODE_ENV
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: nexus-docker-secret
+
+---
+# ---------------------------------------
+# 4. Backend Service
+# ---------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: loopin-backend-service
+spec:
+  selector:
+    app: loopin-backend
+  ports:
+  - port: 5000
+    targetPort: 5000
+  type: ClusterIP
+
+---
+# ---------------------------------------
+# 5. Frontend Deployment
+# ---------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loopin-frontend
+  labels:
+    app: loopin-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loopin-frontend
+  template:
+    metadata:
+      labels:
+        app: loopin-frontend
+    spec:
+      containers:
+      - name: loopin-frontend
+        image: nexus-service-for-docker-hosted-registry.nexus.svc.cluster.local:8085/sanika-project/loopin-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: VITE_BACKEND_URL
+          value: "http://loopin-backend-service:5000"
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: nexus-docker-secret
+
+---
+# ---------------------------------------
+# 6. Frontend Service
+# ---------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: loopin-frontend-service
+spec:
+  selector:
+    app: loopin-frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer
+
+---
+# ---------------------------------------
+# 7. Ingress
+# ---------------------------------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: loopin-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: loopin.yourdomain.com   # <-- Replace with your real domain
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: loopin-frontend-service
+              port:
+                number: 80
+
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: loopin-backend-service
+              port:
+                number: 5000

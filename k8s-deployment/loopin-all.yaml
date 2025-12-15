@@ -96,7 +96,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: loopin.imcc-projects.in
+    - host: loopin.imcc.com
       http:
         paths:
           # 🔹 BACKEND ROUTE (FIRST)

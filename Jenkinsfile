@@ -80,10 +80,10 @@ spec:
         stage('SonarQube Analysis') {
             steps {
                 container('sonar-scanner') {
-                    withCredentials([string(credentialsId: 'sonar-token-2401193', variable: 'SONAR_TOKEN')]) {
+                    withCredentials([string(credentialsId: '2401193_Loopin', variable: 'SONAR_TOKEN')]) {
                         sh '''
                             sonar-scanner \
-                                -Dsonar.projectKey=2401193_Sanika \
+                                -Dsonar.projectKey=2401193_Loopin \
                                 -Dsonar.host.url=http://my-sonarqube-sonarqube.sonarqube.svc.cluster.local:9000 \
                                 -Dsonar.login=$SONAR_TOKEN \
                                 -Dsonar.sources=./ \

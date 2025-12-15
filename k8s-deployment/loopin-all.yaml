@@ -325,9 +325,10 @@ kind: Ingress
 metadata:
   name: mern-ingress
   namespace: "2401193"
-  annotations:
-    kubernetes.io/ingress.class: nginx
+  
+    
 spec:
+  ingressClassName: nginx
   rules:
     - host: loopin.imcc-projects.in
       http:

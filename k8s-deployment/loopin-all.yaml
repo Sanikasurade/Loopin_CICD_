@@ -108,7 +108,7 @@ spec:
                 port:
                   number: 5002
           - path: /
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: mern-frontend-service

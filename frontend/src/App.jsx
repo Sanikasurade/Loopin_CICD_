@@ -22,7 +22,8 @@ import getPrevChatUsers from "./hooks/getPrevchatUsers.jsx";
 import { setOnlineUsers, setSocket } from "./redux/socketSlice.js";
 
 // ✅ Backend URL
-export const serverUrl = "http://localhost:5000"; // change in production
+// export const serverUrl = "http://localhost:5000"; 
+export const serverUrl = "http://loopin.imcc.com";
 
 function App() {
   const dispatch = useDispatch();

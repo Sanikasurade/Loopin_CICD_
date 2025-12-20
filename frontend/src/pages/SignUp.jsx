@@ -112,6 +112,8 @@ function SignUp() {
 
   // SIGNUP HANDLER
   const handleSignUp = async () => {
+    console.log('server url');
+    console.log(serverUrl);
     if (!validateInputs()) return;
 
     setloading(true);

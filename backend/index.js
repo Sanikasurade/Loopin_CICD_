@@ -71,7 +71,7 @@ const port = process.env.PORT || 5000;
 ========================= */
 app.use(
   cors({
- origin:"http://loopin.imcc.com", // ✅ EXACT frontend URL
+ origin:"https://loopin.imcc.com", // ✅ EXACT frontend URL
     credentials: true,               // ✅ allow cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

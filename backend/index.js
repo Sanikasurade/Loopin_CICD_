@@ -41,13 +41,6 @@
 
 
 
-
-
-
-
-
-
-
 import express from "express";
 import dotenv from "dotenv";
 import connectDb from "./config/db.js";
@@ -64,19 +57,24 @@ import { app, server } from "./socket.js";
 
 dotenv.config();
 
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
+
+/* =========================
+   TRUST PROXY (IMPORTANT)
+   REQUIRED FOR HTTPS + INGRESS
+========================= */
+app.set("trust proxy", 1);
 
 /* =========================
    CORS CONFIGURATION
 ========================= */
 app.use(
   cors({
- origin:"https://loopin.imcc.com", // ✅ EXACT frontend URL
-    credentials: true,               // ✅ allow cookies
+    origin: "https://loopin.imcc.com", // ✅ frontend domain (HTTPS)
+    credentials: true,                // ✅ allow cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
-
 );
 
 /* =========================
@@ -86,12 +84,13 @@ app.use(express.json());
 app.use(cookieParser());
 
 /* =========================
-   HEALTH CHECK (IMPORTANT)
+   HEALTH CHECK
 ========================= */
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "UP",
     service: "loopin-backend",
+    port: PORT,
     timestamp: new Date(),
   });
 });
@@ -109,13 +108,13 @@ app.use("/api/message", messageRouter);
    ROOT ROUTE
 ========================= */
 app.get("/", (req, res) => {
-  res.send("Backend is running");
+  res.send("Loopin backend is running 🚀");
 });
 
 /* =========================
    SERVER START
 ========================= */
-server.listen(port, "0.0.0.0", () => {
-  connectDb();
-  console.log(`Server running on port ${port}`);
+server.listen(PORT, "0.0.0.0", async () => {
+  await connectDb();
+  console.log(`🚀 Server running on port ${PORT}`);
 });

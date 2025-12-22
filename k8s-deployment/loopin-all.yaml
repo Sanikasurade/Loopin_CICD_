@@ -120,7 +120,7 @@ spec:
     - port: 80
       targetPort: 80
 ---
-apiVersion: networking.k8s.io/v1
+aapiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mern-ingress
@@ -128,15 +128,11 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
 
-    # 🔑 REQUIRED
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/use-regex: "true"
-
-    # 🔑 WebSocket support
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # WebSocket support
     nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
     nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 
 spec:
   ingressClassName: nginx
@@ -144,7 +140,8 @@ spec:
     - host: loopin.imcc.com
       http:
         paths:
-          - path: /api/(.*)
+          # 🔹 BACKEND
+          - path: /api
             pathType: Prefix
             backend:
               service:
@@ -152,7 +149,7 @@ spec:
                 port:
                   number: 5002
 
-
+          # 🔹 FRONTEND
           - path: /
             pathType: Prefix
             backend:

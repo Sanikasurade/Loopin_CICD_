@@ -1,5 +1,5 @@
 import react from "react"
-import { serverUrl } from "../App";
+//import { serverUrl } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData,setFollowing } from "../redux/userSlice";   
 import { useEffect } from "react";

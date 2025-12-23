@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../utils/axios.js";
 
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 import { setSuggestedUsers } from "../redux/userSlice.js";
 
 export default function useSuggestedUsers() {

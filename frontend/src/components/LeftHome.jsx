@@ -23,7 +23,7 @@ import { setUserData } from '../redux/userSlice';
 import api from '../utils/axios.js';
 // For making API requests
 
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 // Importing backend server URL from App.jsx (to hit API routes)
 
 import OtherUser from './OtherUser.jsx';

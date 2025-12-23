@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import api from "../utils/axios.js";
 
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 import { setFollowing } from "../redux/userSlice.js";
 
 export default function useFollowingList() {

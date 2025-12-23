@@ -4,7 +4,7 @@ import logo from "../assets/logo1.png";
 import logo2 from "../assets/logo2.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import api from "../utils/axios.js";
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -113,7 +113,7 @@ function SignUp() {
   // SIGNUP HANDLER
   const handleSignUp = async () => {
     console.log('server url');
-    console.log(serverUrl);
+    //console.log(serverUrl);
     if (!validateInputs()) return;
 
     setloading(true);

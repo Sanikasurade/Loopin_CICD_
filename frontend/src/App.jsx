@@ -24,7 +24,7 @@ import { setOnlineUsers, setSocket } from "./redux/socketSlice.js";
 // ✅ Backend URL
 // export const serverUrl = "http://localhost:5000"; 
 //export const serverUrl = "https://loopin.imcc.com";
-export const serverUrl = import.meta.env.VITE_API_URL;
+//export const serverUrl = import.meta.env.VITE_API_URL;
 
 
 function App() {

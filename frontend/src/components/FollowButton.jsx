@@ -1,6 +1,6 @@
 import React, { use } from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import { serverUrl } from '../App.jsx';
+//import { serverUrl } from '../App.jsx';
 import { toggleFollow,setFollowing } from '../redux/userSlice.js';
 import api from '../utils/axios.js';
 // Importing backend server URL from App.jsx (to hit API routes)

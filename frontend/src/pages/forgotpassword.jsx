@@ -1,6 +1,6 @@
 
 import api from "../utils/axios.js";
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 import React, { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProfileData, setUserData } from "../redux/userSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../utils/axios.js";
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 import { IoArrowBackOutline } from "react-icons/io5";
 import dp1 from "../assets/dp.jpg";
 import Nav from "../components/Nav.jsx";

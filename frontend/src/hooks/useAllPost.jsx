@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../utils/axios.js";
 
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 import { setPostData } from "../redux/postSlice.js";
 
 export default function useAllPost() {

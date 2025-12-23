@@ -7,7 +7,7 @@ import dp1 from "../assets/dp1.jpg";
 import { setProfileData, setUserData } from "../redux/userSlice";
 import { ClipLoader } from "react-spinners";
 import api from "../utils/axios.js";
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 
 function EditProfile() {
   const { userData } = useSelector((state) => state.user);

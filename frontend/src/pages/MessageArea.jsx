@@ -6,7 +6,7 @@ import { FaRegImage } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import dp1 from '../assets/dp1.jpg';
 import api from '../utils/axios.js';
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 
 import SenderMessage from '../components/SenderMessage';
 import ReceiverMessage from '../components/ReceiverMessage';

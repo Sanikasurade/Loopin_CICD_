@@ -5,7 +5,7 @@ import { FaSquarePlus } from "react-icons/fa6";
 import { useState } from "react"; 
 import VideoPlayer from "../components/VideoPlayer";
 import api from "../utils/axios.js";
-import { serverUrl } from "../App.jsx";
+//import { serverUrl } from "../App.jsx";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { setPostData } from "../redux/postSlice.js";

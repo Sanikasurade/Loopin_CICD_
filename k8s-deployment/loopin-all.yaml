@@ -24,18 +24,55 @@ spec:
           env:
             - name: PORT
               value: "5002"
+
+            - name: NODE_ENV
+              value: "production"
+
             - name: MONGODB_URL
               valueFrom:
                 secretKeyRef:
                   name: backend-secret
                   key: MONGODB_URL
+
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: backend-secret
                   key: JWT_SECRET
+
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: CLOUDINARY_CLOUD_NAME
+
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: CLOUDINARY_API_KEY
+
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: CLOUDINARY_API_SECRET
+
+            - name: EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: EMAIL
+
+            - name: EMAIL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: EMAIL_PASS
+
             - name: NODE_ENV
               value: "production"
+
 ---
 apiVersion: v1
 kind: Service
@@ -92,17 +129,20 @@ metadata:
   name: mern-ingress
   namespace: "2401193"
   annotations:
-    kubernetes.io/ingress.class: rke2-nginx
+    kubernetes.io/ingress.class: nginx
+
+    # WebSocket support
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+
 spec:
-  ingressClassName: rke2-nginx
-
-  # 👇 FRONTEND AS DEFAULT BACKEND
-  defaultBackend:
-    service:
-      name: mern-frontend-service
-      port:
-        number: 80
-
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - loopin.imcc.com
+      secretName: loopin-tls
   rules:
     - host: loopin.imcc.com
       http:
@@ -114,3 +154,10 @@ spec:
                 name: mern-backend-service
                 port:
                   number: 5002
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mern-frontend-service
+                port:
+                  number: 80

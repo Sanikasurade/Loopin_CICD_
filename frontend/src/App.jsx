@@ -13,17 +13,19 @@ import Upload from "./pages/Upload.jsx";
 import Messages from "./pages/Messages.jsx";
 import MessageArea from "./pages/MessageArea.jsx";
 
-import getCurrentUser from "./hooks/getCurrentUser.jsx";
-import getSuggestedUsers from "./hooks/getSuggestedUsers.jsx";
-import getAllPost from "./hooks/getAllPost.jsx";
-import getFollowingList from "./hooks/getFollowingList.jsx";
-import getPrevChatUsers from "./hooks/getPrevchatUsers.jsx";
+import useCurrentUser from "./hooks/useCurrentUser.jsx";
+import useSuggestedUsers from "./hooks/useSuggestedUsers.jsx";
+import useAllPost from "./hooks/useAllPost.jsx";
+import useFollowingList from "./hooks/useFollowingList.jsx";
+import usePrevChatUsers from "./hooks/usePrevchatUsers.jsx";
 
 import { setOnlineUsers, setSocket } from "./redux/socketSlice.js";
 
 // ✅ Backend URL
 // export const serverUrl = "http://localhost:5000"; 
-export const serverUrl = "https://loopin.imcc.com";
+//export const serverUrl = "https://loopin.imcc.com";
+//export const serverUrl = import.meta.env.VITE_API_URL;
+
 
 function App() {
   const dispatch = useDispatch();
@@ -31,35 +33,34 @@ function App() {
   const { socket } = useSelector((state) => state.socket);
 
   // ✅ Load initial data
-  getCurrentUser();
-  getSuggestedUsers();
-  getAllPost();
-  getFollowingList();
-  getPrevChatUsers();
+  useCurrentUser();
+  useSuggestedUsers();
+  useAllPost();
+  useFollowingList();
+  usePrevChatUsers();
+
 
   // ✅ Socket connection
   useEffect(() => {
-    if (userData) {
-      const socketIo = io(serverUrl, {
-        query: { userId: userData._id },
-        transports: ["websocket"],
-      });
+    if (!userData?._id ||socket) return; // 🔥 CRITICAL GUARD
 
-      dispatch(setSocket(socketIo));
+    const socketIo = io(import.meta.env.VITE_API_URL, {
+      path: "/api/socket.io",
+      withCredentials: true,
+      query: { userId: userData._id },
+      transports: ["websocket"],
+    });
 
-      socketIo.on("getOnlineUsers", (users) => {
-        dispatch(setOnlineUsers(users));
-        console.log("Online Users:", users);
-      });
+    dispatch(setSocket(socketIo));
 
-      return () => socketIo.close();
-    } else {
-      if (socket) {
-        socket.close();
-        dispatch(setSocket(null));
-      }
-    }
-  }, [userData]);
+    socketIo.on("getOnlineUsers", (users) => {
+      dispatch(setOnlineUsers(users));
+    });
+
+    return () => socketIo.disconnect();
+  }, [userData?._id]); // 🔥 depend ONLY on _id
+
+
 
   return (
 
